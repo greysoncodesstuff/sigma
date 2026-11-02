@@ -101,15 +101,15 @@ export default function App() {
       onClick={handleDesktopClick}
       onContextMenu={handleContextMenu}
     >
-      {/* Animated background elements */}
+      {/* Animated background orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-cyan-500/3 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }} />
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-500/8 rounded-full blur-[100px] animate-pulse" />
+        <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-purple-500/8 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/2 right-1/3 w-[300px] h-[300px] bg-cyan-500/5 rounded-full blur-[80px] animate-pulse" style={{ animationDelay: '4s' }} />
       </div>
 
       {/* Desktop Icons */}
-      <div className="absolute top-4 left-4 grid grid-cols-1 gap-1 z-10">
+      <div className="absolute top-6 left-6 grid grid-cols-1 gap-2 z-10">
         {desktopIcons.map((icon) => {
           const app = apps.find(a => a.id === icon.app)!;
           return (
@@ -117,34 +117,72 @@ export default function App() {
               key={icon.app}
               onDoubleClick={(e) => { e.stopPropagation(); handleDesktopIconDoubleClick(icon.app); }}
               onClick={(e) => e.stopPropagation()}
-              className="flex flex-col items-center gap-1 p-3 rounded-xl hover:bg-white/10 transition-colors w-20 group"
+              className="flex flex-col items-center gap-2 p-4 rounded-2xl hover:bg-white/10 transition-all w-24 group active:scale-95"
             >
-              <span className="text-3xl group-hover:scale-110 transition-transform drop-shadow-lg">{app.icon}</span>
-              <span className="text-[11px] text-white/80 text-center leading-tight drop-shadow-md">{icon.label}</span>
+              <div 
+                className="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl group-hover:scale-110 transition-transform shadow-xl"
+                style={{ background: `linear-gradient(135deg, ${app.color}30, ${app.color}10)`, border: `1px solid ${app.color}20` }}
+              >
+                {app.icon}
+              </div>
+              <span className="text-xs text-white/90 text-center leading-tight font-medium drop-shadow-lg">{icon.label}</span>
             </button>
           );
         })}
       </div>
 
       {/* Widgets on desktop */}
-      <div className="absolute top-4 right-4 z-10 space-y-3">
+      <div className="absolute top-6 right-6 z-10 space-y-4">
         {/* Clock Widget */}
-        <div className="p-4 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 text-white">
+        <div 
+          className="p-5 rounded-2xl text-white animate-fadeIn"
+          style={{ 
+            background: 'rgba(25, 25, 35, 0.6)',
+            backdropFilter: 'blur(20px) saturate(180%)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
+          }}
+        >
           <ClockWidget />
         </div>
-        {/* Quick Stats */}
-        <div className="p-3 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 text-white text-xs">
-          <div className="flex items-center gap-2 mb-2">
-            <span>🌤️</span>
-            <span className="text-white/80">24°C Sunny</span>
+        
+        {/* Quick Stats Widget */}
+        <div 
+          className="p-4 rounded-2xl text-white text-xs space-y-3 animate-fadeIn"
+          style={{ 
+            background: 'rgba(25, 25, 35, 0.6)',
+            backdropFilter: 'blur(20px) saturate(180%)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+            animationDelay: '0.1s'
+          }}
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center">
+              <span className="text-sm">🌤️</span>
+            </div>
+            <div>
+              <div className="text-white/90 font-medium">24°C</div>
+              <div className="text-white/40 text-[10px]">Sunny</div>
+            </div>
           </div>
-          <div className="flex items-center gap-2 mb-2">
-            <span>📶</span>
-            <span className="text-white/80">NovaNet-5G</span>
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center">
+              <span className="text-sm">📶</span>
+            </div>
+            <div>
+              <div className="text-white/90 font-medium">NovaNet-5G</div>
+              <div className="text-white/40 text-[10px]">Connected</div>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <span>🔋</span>
-            <span className="text-white/80">87%</span>
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-yellow-500/20 flex items-center justify-center">
+              <span className="text-sm">🔋</span>
+            </div>
+            <div>
+              <div className="text-white/90 font-medium">87%</div>
+              <div className="text-white/40 text-[10px]">Charging</div>
+            </div>
           </div>
         </div>
       </div>
@@ -177,35 +215,42 @@ export default function App() {
       {/* Context Menu */}
       {showContextMenu && (
         <div
-          className="absolute z-[10000] py-1 rounded-xl border border-white/10 shadow-2xl min-w-48 overflow-hidden"
-          style={{ left: contextMenuPos.x, top: contextMenuPos.y, background: 'rgba(25, 25, 40, 0.95)', backdropFilter: 'blur(20px)' }}
+          className="absolute z-[10000] py-2 rounded-2xl min-w-52 overflow-hidden animate-scaleIn"
+          style={{ 
+            left: contextMenuPos.x, 
+            top: contextMenuPos.y, 
+            background: 'rgba(25, 25, 35, 0.92)', 
+            backdropFilter: 'blur(30px) saturate(180%)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            boxShadow: '0 15px 50px rgba(0, 0, 0, 0.5)'
+          }}
           onClick={(e) => e.stopPropagation()}
         >
           <button
             onClick={() => { setShowContextMenu(false); }}
-            className="w-full text-left px-4 py-2 text-sm text-white/70 hover:bg-white/10 flex items-center gap-3"
+            className="w-full text-left px-4 py-2.5 text-sm text-white/70 hover:bg-white/10 flex items-center gap-3 transition-colors"
           >
-            <span>🔄</span> Refresh
+            <span className="text-base">🔄</span> Refresh
           </button>
           <button
             onClick={() => {
               setWallpaperIndex((wallpaperIndex + 1) % wallpapers.length);
               setShowContextMenu(false);
             }}
-            className="w-full text-left px-4 py-2 text-sm text-white/70 hover:bg-white/10 flex items-center gap-3"
+            className="w-full text-left px-4 py-2.5 text-sm text-white/70 hover:bg-white/10 flex items-center gap-3 transition-colors"
           >
-            <span>🎨</span> Change Wallpaper
+            <span className="text-base">🎨</span> Change Wallpaper
           </button>
-          <div className="border-t border-white/10 my-1" />
+          <div className="border-t border-white/8 my-1" />
           <button
             onClick={() => {
               const app = apps.find(a => a.id === 'settings');
               if (app) openWindow(app);
               setShowContextMenu(false);
             }}
-            className="w-full text-left px-4 py-2 text-sm text-white/70 hover:bg-white/10 flex items-center gap-3"
+            className="w-full text-left px-4 py-2.5 text-sm text-white/70 hover:bg-white/10 flex items-center gap-3 transition-colors"
           >
-            <span>⚙️</span> Display Settings
+            <span className="text-base">⚙️</span> Display Settings
           </button>
           <button
             onClick={() => {
@@ -213,16 +258,16 @@ export default function App() {
               if (app) openWindow(app);
               setShowContextMenu(false);
             }}
-            className="w-full text-left px-4 py-2 text-sm text-white/70 hover:bg-white/10 flex items-center gap-3"
+            className="w-full text-left px-4 py-2.5 text-sm text-white/70 hover:bg-white/10 flex items-center gap-3 transition-colors"
           >
-            <span>💻</span> Open Terminal
+            <span className="text-base">💻</span> Open Terminal
           </button>
-          <div className="border-t border-white/10 my-1" />
+          <div className="border-t border-white/8 my-1" />
           <button
             onClick={() => { setShowContextMenu(false); }}
-            className="w-full text-left px-4 py-2 text-sm text-white/70 hover:bg-white/10 flex items-center gap-3"
+            className="w-full text-left px-4 py-2.5 text-sm text-white/70 hover:bg-white/10 flex items-center gap-3 transition-colors"
           >
-            <span>ℹ️</span> About NovaOS
+            <span className="text-base">ℹ️</span> About NovaOS
           </button>
         </div>
       )}
@@ -257,10 +302,10 @@ function ClockWidget() {
 
   return (
     <div className="text-center">
-      <div className="text-3xl font-light tracking-wider">
+      <div className="text-4xl font-light tracking-wider tabular-nums">
         {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
       </div>
-      <div className="text-xs text-white/50 mt-1">
+      <div className="text-xs text-white/50 mt-2 font-medium">
         {time.toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric' })}
       </div>
     </div>

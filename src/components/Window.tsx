@@ -89,48 +89,55 @@ export default function Window({
   if (win.minimized) return null;
 
   const style: React.CSSProperties = win.maximized
-    ? { top: 0, left: 0, width: '100%', height: 'calc(100% - 52px)', zIndex: win.zIndex }
+    ? { top: 0, left: 0, width: '100%', height: 'calc(100% - 56px)', zIndex: win.zIndex }
     : { top: win.y, left: win.x, width: win.width, height: win.height, zIndex: win.zIndex };
 
   return (
     <div
-      className="absolute flex flex-col rounded-xl overflow-hidden shadow-2xl border border-white/10 backdrop-blur-xl"
+      className="absolute flex flex-col rounded-2xl overflow-hidden animate-scaleIn"
       style={{
         ...style,
-        background: 'rgba(30, 30, 40, 0.92)',
-        transition: isDragging ? 'none' : 'box-shadow 0.2s',
+        background: 'rgba(28, 28, 35, 0.85)',
+        backdropFilter: 'blur(40px) saturate(180%)',
+        border: '1px solid rgba(255, 255, 255, 0.12)',
+        boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05) inset',
+        transition: isDragging ? 'none' : 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
       }}
       onMouseDown={onFocus}
     >
       {/* Title Bar */}
       <div
-        className="flex items-center h-10 px-3 select-none shrink-0 cursor-default"
-        style={{ background: 'rgba(20, 20, 30, 0.8)' }}
+        className="flex items-center h-12 px-4 select-none shrink-0 cursor-default"
+        style={{ 
+          background: 'linear-gradient(180deg, rgba(40, 40, 50, 0.9) 0%, rgba(30, 30, 40, 0.9) 100%)',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.08)'
+        }}
         onMouseDown={handleMouseDown}
         onDoubleClick={onMaximize}
       >
         <div className="flex items-center gap-2">
           <button
             onClick={(e) => { e.stopPropagation(); onClose(); }}
-            className="w-3 h-3 rounded-full bg-red-500 hover:bg-red-400 transition-colors flex items-center justify-center group"
+            className="w-3 h-3 rounded-full bg-gradient-to-br from-red-400 to-red-600 hover:from-red-300 hover:to-red-500 transition-all flex items-center justify-center group shadow-sm"
           >
-            <span className="text-[8px] text-red-900 opacity-0 group-hover:opacity-100">✕</span>
+            <span className="text-[9px] text-red-900 opacity-0 group-hover:opacity-100 font-bold">✕</span>
           </button>
           <button
             onClick={(e) => { e.stopPropagation(); onMinimize(); }}
-            className="w-3 h-3 rounded-full bg-yellow-500 hover:bg-yellow-400 transition-colors flex items-center justify-center group"
+            className="w-3 h-3 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 hover:from-yellow-300 hover:to-yellow-500 transition-all flex items-center justify-center group shadow-sm"
           >
-            <span className="text-[8px] text-yellow-900 opacity-0 group-hover:opacity-100">−</span>
+            <span className="text-[9px] text-yellow-900 opacity-0 group-hover:opacity-100 font-bold">−</span>
           </button>
           <button
             onClick={(e) => { e.stopPropagation(); onMaximize(); }}
-            className="w-3 h-3 rounded-full bg-green-500 hover:bg-green-400 transition-colors flex items-center justify-center group"
+            className="w-3 h-3 rounded-full bg-gradient-to-br from-green-400 to-green-600 hover:from-green-300 hover:to-green-500 transition-all flex items-center justify-center group shadow-sm"
           >
-            <span className="text-[8px] text-green-900 opacity-0 group-hover:opacity-100">⤢</span>
+            <span className="text-[9px] text-green-900 opacity-0 group-hover:opacity-100 font-bold">⤢</span>
           </button>
         </div>
-        <div className="flex-1 text-center text-xs text-white/70 font-medium truncate px-4">
-          {win.icon} {win.title}
+        <div className="flex-1 text-center text-sm text-white/80 font-medium truncate px-4">
+          <span className="mr-2">{win.icon}</span>
+          {win.title}
         </div>
         <div className="w-14" />
       </div>
@@ -143,11 +150,11 @@ export default function Window({
       {/* Resize Handle */}
       {!win.maximized && (
         <div
-          className="absolute bottom-0 right-0 w-4 h-4 cursor-nwse-resize"
+          className="absolute bottom-0 right-0 w-5 h-5 cursor-nwse-resize hover:bg-white/5 transition-colors"
           onMouseDown={handleResizeMouseDown}
         >
-          <svg className="w-3 h-3 text-white/30 absolute bottom-0.5 right-0.5" viewBox="0 0 10 10">
-            <path d="M9 1L1 9M9 5L5 9M9 9L9 9" stroke="currentColor" strokeWidth="1.5" fill="none" />
+          <svg className="w-3 h-3 text-white/40 absolute bottom-1 right-1" viewBox="0 0 10 10">
+            <path d="M9 1L1 9M9 5L5 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none" />
           </svg>
         </div>
       )}

@@ -10,17 +10,16 @@ export default function LockScreen({ onUnlock }: LockScreenProps) {
   const [time, setTime] = useState(new Date());
 
   useEffect(() => {
-    // Boot animation
     const bootTimer = setInterval(() => {
       setBootProgress(prev => {
         if (prev >= 100) {
           clearInterval(bootTimer);
-          setTimeout(() => setPhase('lock'), 300);
+          setTimeout(() => setPhase('lock'), 400);
           return 100;
         }
-        return prev + 2;
+        return prev + 3;
       });
-    }, 30);
+    }, 25);
     return () => clearInterval(bootTimer);
   }, []);
 
@@ -31,14 +30,19 @@ export default function LockScreen({ onUnlock }: LockScreenProps) {
 
   if (phase === 'boot') {
     return (
-      <div className="w-screen h-screen bg-black flex flex-col items-center justify-center">
-        <div className="text-5xl mb-8 animate-pulse">🌟</div>
-        <div className="text-white text-xl font-light tracking-widest mb-8">NovaOS</div>
-        <div className="w-48 h-0.5 bg-white/10 rounded-full overflow-hidden">
-          <div
-            className="h-full bg-white/60 rounded-full transition-all duration-100"
-            style={{ width: `${bootProgress}%` }}
-          />
+      <div className="w-screen h-screen bg-black flex flex-col items-center justify-center relative overflow-hidden">
+        {/* Subtle background glow */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-950/20 via-transparent to-purple-950/20" />
+        
+        <div className="relative z-10 flex flex-col items-center">
+          <div className="text-6xl mb-8 animate-pulse">🌟</div>
+          <div className="text-white text-2xl font-light tracking-[0.3em] mb-10 uppercase">NovaOS</div>
+          <div className="w-56 h-1 bg-white/10 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-gradient-to-r from-blue-400 to-purple-400 rounded-full transition-all duration-100 ease-out"
+              style={{ width: `${bootProgress}%` }}
+            />
+          </div>
         </div>
       </div>
     );
@@ -46,39 +50,50 @@ export default function LockScreen({ onUnlock }: LockScreenProps) {
 
   return (
     <div
-      className="w-screen h-screen flex flex-col items-center justify-center bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 relative overflow-hidden"
+      className="w-screen h-screen flex flex-col items-center justify-center relative overflow-hidden cursor-pointer"
       onClick={onUnlock}
+      style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%)' }}
     >
-      {/* Background effects */}
+      {/* Animated background orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/3 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/3 w-[400px] h-[400px] bg-purple-500/10 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[100px] animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-cyan-500/5 rounded-full blur-[80px] animate-pulse" style={{ animationDelay: '4s' }} />
       </div>
 
       {/* Time */}
-      <div className="text-center mb-12 z-10">
-        <div className="text-7xl font-extralight text-white tracking-wider">
+      <div className="text-center mb-16 z-10 animate-fadeIn">
+        <div className="text-8xl font-extralight text-white tracking-wider tabular-nums drop-shadow-2xl">
           {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
         </div>
-        <div className="text-lg text-white/50 mt-2 font-light">
-          {time.toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
+        <div className="text-xl text-white/50 mt-3 font-light tracking-wide">
+          {time.toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric' })}
         </div>
       </div>
 
       {/* User avatar */}
-      <div className="flex flex-col items-center z-10 animate-fadeIn">
-        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-3xl shadow-xl mb-3 ring-2 ring-white/20">
+      <div className="flex flex-col items-center z-10 animate-slideUp">
+        <div className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 flex items-center justify-center text-4xl font-bold shadow-2xl mb-4 ring-4 ring-white/10">
           N
         </div>
-        <div className="text-white text-lg font-medium mb-1">Nova User</div>
-        <div className="text-white/40 text-sm mt-2 animate-pulse">Click anywhere to unlock</div>
+        <div className="text-white text-xl font-medium mb-2">Nova User</div>
+        <div className="text-white/40 text-sm mt-3 animate-pulse tracking-wide">Click anywhere to unlock</div>
       </div>
 
-      {/* Bottom hints */}
-      <div className="absolute bottom-8 flex items-center gap-6 text-white/30 text-xs">
-        <span>📶 WiFi Connected</span>
-        <span>🔋 87%</span>
-        <span>🌤️ 24°C</span>
+      {/* Bottom status bar */}
+      <div className="absolute bottom-8 flex items-center gap-8 text-white/30 text-xs z-10">
+        <div className="flex items-center gap-2">
+          <span>📶</span>
+          <span>Connected</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span>🔋</span>
+          <span>87%</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span>🌤️</span>
+          <span>24°C</span>
+        </div>
       </div>
     </div>
   );

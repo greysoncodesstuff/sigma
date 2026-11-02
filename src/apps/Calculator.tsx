@@ -68,46 +68,46 @@ export default function Calculator() {
   };
 
   const buttons = [
-    { label: 'AC', action: handleClear, style: 'bg-white/10 hover:bg-white/20 text-orange-400' },
-    { label: '±', action: handleToggleSign, style: 'bg-white/10 hover:bg-white/20 text-orange-400' },
-    { label: '%', action: handlePercent, style: 'bg-white/10 hover:bg-white/20 text-orange-400' },
-    { label: '÷', action: () => handleOp('÷'), style: `${op === '÷' ? 'bg-orange-400 text-white' : 'bg-orange-500/80 hover:bg-orange-500 text-white'}` },
-    { label: '7', action: () => handleNumber('7'), style: 'bg-white/5 hover:bg-white/15 text-white' },
-    { label: '8', action: () => handleNumber('8'), style: 'bg-white/5 hover:bg-white/15 text-white' },
-    { label: '9', action: () => handleNumber('9'), style: 'bg-white/5 hover:bg-white/15 text-white' },
-    { label: '×', action: () => handleOp('×'), style: `${op === '×' ? 'bg-orange-400 text-white' : 'bg-orange-500/80 hover:bg-orange-500 text-white'}` },
-    { label: '4', action: () => handleNumber('4'), style: 'bg-white/5 hover:bg-white/15 text-white' },
-    { label: '5', action: () => handleNumber('5'), style: 'bg-white/5 hover:bg-white/15 text-white' },
-    { label: '6', action: () => handleNumber('6'), style: 'bg-white/5 hover:bg-white/15 text-white' },
-    { label: '-', action: () => handleOp('-'), style: `${op === '-' ? 'bg-orange-400 text-white' : 'bg-orange-500/80 hover:bg-orange-500 text-white'}` },
-    { label: '1', action: () => handleNumber('1'), style: 'bg-white/5 hover:bg-white/15 text-white' },
-    { label: '2', action: () => handleNumber('2'), style: 'bg-white/5 hover:bg-white/15 text-white' },
-    { label: '3', action: () => handleNumber('3'), style: 'bg-white/5 hover:bg-white/15 text-white' },
-    { label: '+', action: () => handleOp('+'), style: `${op === '+' ? 'bg-orange-400 text-white' : 'bg-orange-500/80 hover:bg-orange-500 text-white'}` },
-    { label: '0', action: () => handleNumber('0'), style: 'bg-white/5 hover:bg-white/15 text-white col-span-2' },
-    { label: '.', action: handleDecimal, style: 'bg-white/5 hover:bg-white/15 text-white' },
-    { label: '=', action: handleEquals, style: 'bg-orange-500 hover:bg-orange-400 text-white' },
+    { label: 'AC', action: handleClear, style: 'bg-white/10 hover:bg-white/15 text-orange-400 font-semibold' },
+    { label: '±', action: handleToggleSign, style: 'bg-white/10 hover:bg-white/15 text-orange-400 font-semibold' },
+    { label: '%', action: handlePercent, style: 'bg-white/10 hover:bg-white/15 text-orange-400 font-semibold' },
+    { label: '÷', action: () => handleOp('÷'), style: `${op === '÷' ? 'bg-orange-500 text-white' : 'bg-orange-500/90 hover:bg-orange-500 text-white'} font-semibold` },
+    { label: '7', action: () => handleNumber('7'), style: 'bg-white/5 hover:bg-white/10 text-white' },
+    { label: '8', action: () => handleNumber('8'), style: 'bg-white/5 hover:bg-white/10 text-white' },
+    { label: '9', action: () => handleNumber('9'), style: 'bg-white/5 hover:bg-white/10 text-white' },
+    { label: '×', action: () => handleOp('×'), style: `${op === '×' ? 'bg-orange-500 text-white' : 'bg-orange-500/90 hover:bg-orange-500 text-white'} font-semibold` },
+    { label: '4', action: () => handleNumber('4'), style: 'bg-white/5 hover:bg-white/10 text-white' },
+    { label: '5', action: () => handleNumber('5'), style: 'bg-white/5 hover:bg-white/10 text-white' },
+    { label: '6', action: () => handleNumber('6'), style: 'bg-white/5 hover:bg-white/10 text-white' },
+    { label: '-', action: () => handleOp('-'), style: `${op === '-' ? 'bg-orange-500 text-white' : 'bg-orange-500/90 hover:bg-orange-500 text-white'} font-semibold` },
+    { label: '1', action: () => handleNumber('1'), style: 'bg-white/5 hover:bg-white/10 text-white' },
+    { label: '2', action: () => handleNumber('2'), style: 'bg-white/5 hover:bg-white/10 text-white' },
+    { label: '3', action: () => handleNumber('3'), style: 'bg-white/5 hover:bg-white/10 text-white' },
+    { label: '+', action: () => handleOp('+'), style: `${op === '+' ? 'bg-orange-500 text-white' : 'bg-orange-500/90 hover:bg-orange-500 text-white'} font-semibold` },
+    { label: '0', action: () => handleNumber('0'), style: 'bg-white/5 hover:bg-white/10 text-white col-span-2' },
+    { label: '.', action: handleDecimal, style: 'bg-white/5 hover:bg-white/10 text-white' },
+    { label: '=', action: handleEquals, style: 'bg-orange-500 hover:bg-orange-400 text-white font-semibold' },
   ];
 
   return (
-    <div className="h-full flex flex-col p-4" style={{ background: 'rgba(0,0,0,0.3)' }}>
+    <div className="h-full flex flex-col p-5" style={{ background: 'rgba(0, 0, 0, 0.3)' }}>
       {/* Display */}
-      <div className="mb-4 p-4 rounded-xl bg-black/30">
+      <div className="mb-5 p-5 rounded-2xl" style={{ background: 'rgba(0, 0, 0, 0.4)', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
         {prev && op && (
-          <div className="text-right text-sm text-white/40 mb-1">{prev} {op}</div>
+          <div className="text-right text-sm text-white/40 mb-2 font-medium">{prev} {op}</div>
         )}
-        <div className="text-right text-3xl font-light text-white tracking-wider overflow-hidden">
+        <div className="text-right text-4xl font-light text-white tracking-wider overflow-hidden tabular-nums">
           {display.length > 12 ? parseFloat(display).toExponential(6) : display}
         </div>
       </div>
 
       {/* Buttons */}
-      <div className="grid grid-cols-4 gap-2 flex-1">
+      <div className="grid grid-cols-4 gap-2.5 flex-1">
         {buttons.map((btn, i) => (
           <button
             key={i}
             onClick={btn.action}
-            className={`${btn.style} rounded-xl text-lg font-medium transition-all active:scale-95 ${btn.label === '0' ? 'col-span-2' : ''}`}
+            className={`${btn.style} rounded-2xl text-lg transition-all active:scale-95 shadow-sm ${btn.label === '0' ? 'col-span-2' : ''}`}
           >
             {btn.label}
           </button>
